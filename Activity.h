@@ -7,10 +7,9 @@
 #include <string>
 #include <chrono>
 #include <ctime>
-
 class Activity {
 public:
-    Activity(std::string description, std::tm startTime, std::tm endTime): description(description), startTime(startTime), endTime(endTime){}
+    Activity(std::string description, std::tm startTime, std::tm endTime);
 
     const std::string &getDescription() const {
         return description;
@@ -37,6 +36,12 @@ public:
     }
 
 private:
+    bool isValidDatesRange(const std::tm& date1, const std::tm& date2) const;
+
+    bool isCoincidentDay(const std::tm& date1, const std::tm& date2) const;
+
+    bool isValidHours(const std::tm& date1, const std::tm& date2) const;
+
     std::string description;
     std::tm startTime;
     std::tm endTime;
