@@ -5,7 +5,7 @@
 #include "Activity.h"
 #include <stdexcept>
 
-Activity::Activity(std::string description, std::tm startTime, std::tm endTime) {
+Activity::Activity(std::string description, Date date, Time startTime, Time endTime) {
     if(!isValidDatesRange(startTime, endTime))
         throw std::out_of_range("Not a valid date range for an activity!");
 
@@ -14,23 +14,52 @@ Activity::Activity(std::string description, std::tm startTime, std::tm endTime) 
     this->endTime = endTime;
 }
 
-bool Activity::isValidDatesRange(const std::tm &date1, const std::tm &date2) const {
-    if(isCoincidentDay(date1, date2) && isValidHours(date1, date2))
-        return true;
-    else
-        return false;
+void Activity::setDate(const Date &date) {
+    Activity::date = date;
 }
 
-bool Activity::isCoincidentDay(const std::tm &date1, const std::tm &date2) const {
-    if(date1.tm_year == date2.tm_year && date1.tm_mon == date2.tm_mon && date1.tm_mday == date2.tm_mday)
-        return true;
-    else
-        return false;
+void Activity::setStartTime(const Time &startTime) {
+    Activity::startTime = startTime;
 }
 
-bool Activity::isValidHours(const std::tm &date1, const std::tm &date2) const {
-    if(date1.tm_hour < date2.tm_hour && date1.tm_min < date2.tm_min)
-        return true;
-    else
-        return false;
+void Activity::setEndTime(const Time &endTime) {
+    Activity::endTime = endTime;
 }
+
+const Date &Activity::getDate() const {
+    return date;
+}
+
+void Activity::setDescription(const std::string &description) {
+    this->description = description;
+}
+
+const std::string &Activity::getDescription() const {
+    return description;
+}
+
+const Time &Activity::getStartTime() const {
+    return startTime;
+}
+
+const Time &Activity::getEndTime() const {
+    return endTime;
+}
+
+bool Activity::isValidDatesRange(const Time &startTime, const Time &endTime) const {
+
+    if(startTime.getHour() > endTime.getHour())
+        return false;
+    else if(startTime == endTime)
+        return false;
+    else if(startTime.getMinute() > endTime.getMinute())
+        return false;
+    else
+        return true;
+}
+
+std::string Activity::getParsedDate() {
+    std::string parsedDate = std::to_string(date.getYear()) + " " + std::to_string(date.getMonth()) + " " + std::to_string(date.getDay());
+    return parsedDate;
+}
+

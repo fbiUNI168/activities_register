@@ -7,44 +7,37 @@
 #include <string>
 #include <chrono>
 #include <ctime>
+#include "Date.h"
+#include "Time.h"
 class Activity {
 public:
-    Activity(std::string description, std::tm startTime, std::tm endTime);
+    Activity(std::string description, Date date, Time startTime, Time endTime);
 
-    const std::string &getDescription() const {
-        return description;
-    }
+    const std::string &getDescription() const;
 
-    const tm &getStartTime() const {
-        return startTime;
-    }
+    const Time &getStartTime() const;
 
-    const tm &getEndTime() const {
-        return endTime;
-    }
+    const Time &getEndTime() const;
 
-    void setDescription(const std::string &description) {
-        this->description = description;
-    }
+    const Date &getDate() const;
 
-    void setStartTime(const tm &startTime) {
-        this->startTime = startTime;
-    }
+    void setDate(const Date &date);
 
-    void setEndTime(const tm &endTime) {
-        this->endTime = endTime;
-    }
+    void setStartTime(const Time &startTime);
+
+    void setEndTime(const Time &endTime);
+
+    void setDescription(const std::string &description);
+
+    std::string getParsedDate();
 
 private:
-    bool isValidDatesRange(const std::tm& date1, const std::tm& date2) const;
-
-    bool isCoincidentDay(const std::tm& date1, const std::tm& date2) const;
-
-    bool isValidHours(const std::tm& date1, const std::tm& date2) const;
+    bool isValidDatesRange(const Time& startTime, const Time& endTime) const;
 
     std::string description;
-    std::tm startTime;
-    std::tm endTime;
+    Date date;
+    Time startTime;
+    Time endTime;
 
 };
 
