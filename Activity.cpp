@@ -5,7 +5,7 @@
 #include "Activity.h"
 #include <stdexcept>
 
-Activity::Activity(std::string description, Date date, Time startTime, Time endTime) {
+Activity::Activity(const std::string& description, Date date, Time startTime, Time endTime) {
     if(!isValidDatesRange(startTime, endTime))
         throw std::out_of_range("Not a valid date range for an activity!");
 
@@ -58,7 +58,15 @@ bool Activity::isValidDatesRange(const Time &startTime, const Time &endTime) con
         return true;
 }
 
-std::string Activity::getParsedDate() {
+bool Activity::isOverlapping(const Activity& activity) {
+    if((startTime.getHour() == activity.getEndTime().getHour() && startTime.getMinute() < activity.getEndTime().getMinute()) ||
+            (endTime.getHour() == activity.getStartTime().getHour() && endTime.getMinute() > activity.getStartTime().getMinute()) ||
+            startTime.getHour() < activity.getEndTime().getHour() && endTime.getHour() > activity.getStartTime().getHour())
+        return true;
+    return false;
+}
+
+std::string Activity::getParsedDate() const{
     std::string parsedDate = std::to_string(date.getYear()) + " " + std::to_string(date.getMonth()) + " " + std::to_string(date.getDay());
     return parsedDate;
 }

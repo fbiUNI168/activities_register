@@ -11,7 +11,7 @@
 #include "Time.h"
 class Activity {
 public:
-    Activity(std::string description, Date date, Time startTime, Time endTime);
+    Activity(const std::string& description, Date date, Time startTime, Time endTime);
 
     const std::string &getDescription() const;
 
@@ -29,7 +29,9 @@ public:
 
     void setDescription(const std::string &description);
 
-    std::string getParsedDate();
+    std::string getParsedDate() const;
+
+    bool isOverlapping(const Activity& activity);
 
 private:
     bool isValidDatesRange(const Time& startTime, const Time& endTime) const;
