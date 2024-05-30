@@ -10,7 +10,7 @@ class Date {
 public:
     Date(int day, int month, int year);
 
-    Date() : day(0), month(0), year(0) {}
+    Date() : day(1), month(1), year(1970) {}
 
     int getDay() const;
 
@@ -27,7 +27,7 @@ public:
     bool operator==(const Date &date) const;
 
 private:
-    int getDaysOfMonth(const int& month, const int& year) const;
+    int getDaysOfMonth(int month, int year) const;
 
     bool isLeap(int year) const;
 

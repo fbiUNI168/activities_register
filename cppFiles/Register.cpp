@@ -2,7 +2,8 @@
 // Created by fbi168 on 18/05/24.
 //
 
-#include "Register.h"
+#include "../headerFiles/Register.h"
+#include "../exceptions/registerException.h"
 #include <algorithm>
 
 std::vector<Activity> Register::getActivitiesForDate(const std::string& date) const {

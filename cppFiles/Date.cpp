@@ -2,11 +2,11 @@
 // Created by fbi168 on 18/05/24.
 //
 
-#include "Date.h"
+#include "../headerFiles/Date.h"
 #include <stdexcept>
 
-enum{ JANUARY = 1, FEBRUARY = 2, MARCH = 3, APRIL = 4, MAY = 5,
-        JUNE = 6, JULY = 7, AUGUST = 8, SEPTEMBER = 9, OCTOBER = 10, NOVEMBER = 11, DECEMBER = 12};
+enum{ FEBRUARY = 2,APRIL = 4,
+        JUNE = 6, SEPTEMBER = 9, NOVEMBER = 11};
 
 Date::Date(int day, int month, int year) {
     if (!validDate(day, month, year))
@@ -72,24 +72,26 @@ bool Date::isLeap(int year) const {
 }
 
 
-int Date::getDaysOfMonth(const int& month, const int& year) const {
+int Date::getDaysOfMonth(int month,  int year) const {
+    int numberOfDays = 31;
     switch (month) {
         case FEBRUARY:
             if (isLeap(year))
-                return 29;
+                numberOfDays =  29;
             else
-                return 28;
+                numberOfDays = 28;
+        break;
         case APRIL:
-            return 30;
+
         case JUNE:
-            return 30;
+
         case SEPTEMBER:
-            return 30;
+
         case NOVEMBER:
-            return 30;
-        default:
-            return 31;
+            numberOfDays = 30;
+        break;
     }
+    return numberOfDays;
 }
 
 

@@ -2,7 +2,7 @@
 // Created by fbi168 on 17/05/24.
 //
 
-#include "Activity.h"
+#include "../headerFiles/Activity.h"
 #include <stdexcept>
 
 Activity::Activity(const std::string& description, Date date, Time startTime, Time endTime) {
