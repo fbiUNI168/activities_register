@@ -10,6 +10,7 @@ Activity::Activity(const std::string& description, Date date, Time startTime, Ti
         throw std::out_of_range("Not a valid date range for an activity!");
 
     this->description = description;
+    this->date = date;
     this->startTime = startTime;
     this->endTime = endTime;
 }
@@ -52,7 +53,7 @@ bool Activity::isValidDatesRange(const Time &startTime, const Time &endTime) con
         return false;
     else if(startTime == endTime)
         return false;
-    else if(startTime.getMinute() > endTime.getMinute())
+    else if( startTime.getHour() == endTime.getHour() && startTime.getMinute() > endTime.getMinute())
         return false;
     else
         return true;
@@ -67,7 +68,7 @@ bool Activity::isOverlapping(const Activity& activity) {
 }
 
 std::string Activity::getParsedDate() const{
-    std::string parsedDate = std::to_string(date.getYear()) + " " + std::to_string(date.getMonth()) + " " + std::to_string(date.getDay());
+    std::string parsedDate = std::to_string(date.getYear()) + "-" + std::to_string(date.getMonth()) + "-" + std::to_string(date.getDay());
     return parsedDate;
 }
 

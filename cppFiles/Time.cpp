@@ -2,7 +2,7 @@
 // Created by fbi168 on 22/05/24.
 //
 
-#include "Time.h"
+#include "../headerFiles/Time.h"
 #include <stdexcept>
 
 Time::Time(int hour, int minute) {
