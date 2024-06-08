@@ -11,6 +11,7 @@
 
 class Register {
 public:
+    Register() = default;
 
     std::vector<Activity> getActivitiesForDate(const std::string& date) const;
 

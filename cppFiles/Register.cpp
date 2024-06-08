@@ -7,9 +7,9 @@
 #include <algorithm>
 
 std::vector<Activity> Register::getActivitiesForDate(const std::string& date) const {
-    auto it = list.find(date);
-    if (it != list.end()) {
-        return it->second;
+    auto activitiesElement = list.find(date);
+    if (activitiesElement != list.end()) {
+        return activitiesElement->second;
     } else{
         return {};
     }
@@ -18,11 +18,12 @@ std::vector<Activity> Register::getActivitiesForDate(const std::string& date) co
 void Register::addActivity(const Activity &activity) {
     std::string date = activity.getParsedDate();
     bool overlap = false;
-    const auto& it = list[date].begin();
-    while(it != list[date].end() && overlap == false){
-        if(it->isOverlapping(activity)){
+    auto activitiesElement = list[date].begin();
+    while(activitiesElement != list[date].end() && overlap == false){
+        if(activitiesElement->isOverlapping(activity)){
             overlap = true;
         }
+        activitiesElement++;
     }
 
     if(!overlap){

@@ -48,7 +48,6 @@ const Time &Activity::getEndTime() const {
 }
 
 bool Activity::isValidDatesRange(const Time &startTime, const Time &endTime) const {
-
     if(startTime.getHour() > endTime.getHour())
         return false;
     else if(startTime == endTime)
@@ -59,16 +58,20 @@ bool Activity::isValidDatesRange(const Time &startTime, const Time &endTime) con
         return true;
 }
 
-bool Activity::isOverlapping(const Activity& activity) {
-    if((startTime.getHour() == activity.getEndTime().getHour() && startTime.getMinute() < activity.getEndTime().getMinute()) ||
-            (endTime.getHour() == activity.getStartTime().getHour() && endTime.getMinute() > activity.getStartTime().getMinute()) ||
-            startTime.getHour() < activity.getEndTime().getHour() && endTime.getHour() > activity.getStartTime().getHour())
-        return true;
-    return false;
+bool Activity::isOverlapping(const Activity &comparisonActivity) {
+        int thisStartMinutes = startTime.getHour() * 60 + startTime.getMinute();
+        int thisEndMinutes = endTime.getHour() * 60 + endTime.getMinute();
+        int comparisonStartMinutes = comparisonActivity.startTime.getHour() * 60 + comparisonActivity.startTime.getMinute();
+        int comparisonEndMinutes = comparisonActivity.endTime.getHour() * 60 + comparisonActivity.endTime.getMinute();
+
+        if(thisStartMinutes < comparisonEndMinutes && thisEndMinutes > comparisonStartMinutes)
+            return true;
+        else
+            return false;
+
 }
 
 std::string Activity::getParsedDate() const{
     std::string parsedDate = std::to_string(date.getYear()) + "-" + std::to_string(date.getMonth()) + "-" + std::to_string(date.getDay());
     return parsedDate;
 }
-

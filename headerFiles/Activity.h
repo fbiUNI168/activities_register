@@ -31,7 +31,7 @@ public:
 
     std::string getParsedDate() const;
 
-    bool isOverlapping(const Activity& activity);
+    bool isOverlapping(const Activity &comparisonActivity);
 
 private:
     bool isValidDatesRange(const Time& startTime, const Time& endTime) const;

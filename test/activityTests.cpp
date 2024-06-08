@@ -40,3 +40,17 @@ TEST(activityTest, getParsedDateTest){
                       Time(17, 30), Time(18, 00));
     ASSERT_EQ(activity.getParsedDate(), "2024-8-16");
 }
+
+TEST(ActivityTest, isOverlappingTest){
+    Activity firstActivity("Do the project for programmation", Date(16, 8, 2024),
+                      Time(17, 30), Time(18, 00));
+    Activity secondActivity("Do the project for programmation", Date(16, 8, 2024),
+                           Time(17, 15), Time(17, 45));
+    EXPECT_TRUE(firstActivity.isOverlapping(secondActivity));
+    secondActivity.setEndTime(Time(18, 15));
+    secondActivity.setStartTime(Time(17, 45));
+    EXPECT_TRUE(firstActivity.isOverlapping(secondActivity));
+    secondActivity.setStartTime(Time(17, 35));
+    secondActivity.setEndTime(Time(17, 55));
+    EXPECT_TRUE(firstActivity.isOverlapping(secondActivity));
+}
