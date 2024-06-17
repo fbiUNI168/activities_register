@@ -3,8 +3,8 @@
 //
 
 #include "../headerFiles/Register.h"
-#include "../exceptions/registerException.h"
 #include <algorithm>
+#include <stdexcept>
 
 std::vector<Activity> Register::getActivitiesForDate(const std::string& date) const {
     auto activitiesElement = list.find(date);
@@ -40,13 +40,14 @@ void Register::addActivity(const Activity &activity) {
             else
                 return false;
         });
+    }else{
+        throw std::invalid_argument("It is not possible to add an activity that overlaps with another");
     }
 }
 
 void Register::deleteActivity(const std::string &date, int pos) {
     if(pos >= 0 && pos <= list[date].size()){
-        auto activityList = list[date];
-        activityList.erase(activityList.begin() + pos);
+        list[date].erase(list[date].begin() + pos);
     }
 }
 
