@@ -46,13 +46,10 @@ void Date::setMonth(int month) {
 }
 
 void Date::setYear(int year) {
-    if (validYear(year)) {
         if (validDay(this->day, month, this->year))
             this->year = year;
         else
             throw std::out_of_range("Day not valid the selected year!");
-    } else
-        throw std::out_of_range("Year not valid!");
 }
 
 bool Date::isLeap(int year) const {
