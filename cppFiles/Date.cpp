@@ -5,9 +5,6 @@
 #include "../headerFiles/Date.h"
 #include <stdexcept>
 
-enum{ FEBRUARY = 2,APRIL = 4,
-        JUNE = 6, SEPTEMBER = 9, NOVEMBER = 11};
-
 Date::Date(int day, int month, int year) {
     if (!validDate(day, month, year))
         throw std::out_of_range("Date not valid!");
@@ -75,19 +72,19 @@ bool Date::isLeap(int year) const {
 int Date::getDaysOfMonth(int month,  int year) const {
     int numberOfDays = 31;
     switch (month) {
-        case FEBRUARY:
+        case 2:
             if (isLeap(year))
                 numberOfDays =  29;
             else
                 numberOfDays = 28;
         break;
-        case APRIL:
+        case 4:
 
-        case JUNE:
+        case 6:
 
-        case SEPTEMBER:
+        case 9:
 
-        case NOVEMBER:
+        case 11:
             numberOfDays = 30;
         break;
     }
@@ -96,7 +93,7 @@ int Date::getDaysOfMonth(int month,  int year) const {
 
 
 bool Date::validDate(int day, int month, int year) {
-    if (validDay(day, month, year) && validMonth(month) && validYear(year))
+    if (validDay(day, month, year) && validMonth(month))
         return true;
     return false;
 }
@@ -115,12 +112,6 @@ bool Date::validDay(int day, int month, int year) const {
 
 bool Date::validMonth(int month) {
     if (month > 0 && month < 13)
-        return true;
-    return false;
-}
-
-bool Date::validYear(int year) {
-    if (year >= 2000 && year <= 2100)
         return true;
     return false;
 }

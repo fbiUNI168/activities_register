@@ -37,9 +37,6 @@ private:
 
     bool validMonth(int month);
 
-    bool validYear(int year);
-
-
     int day;
     int month;
     int year;
