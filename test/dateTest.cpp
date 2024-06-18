@@ -18,6 +18,15 @@ TEST(dateTest, defaultConstructorTest){
     ASSERT_EQ(date.getYear(), 1970);
 }
 
+TEST(dateTest, settersDate){
+    Date date(29, 2, 2024);
+    EXPECT_THROW(date.setDay(0), std::out_of_range);
+    EXPECT_THROW(date.setDay(30), std::out_of_range);
+    EXPECT_THROW(date.setMonth(0), std::out_of_range);
+    EXPECT_THROW(date.setMonth(13), std::out_of_range);
+    EXPECT_THROW(date.setYear(2021), std::out_of_range);
+}
+
 
 TEST(DateTest, isLeapTest) {
     Date date(29, 2, 2024);
@@ -31,6 +40,11 @@ TEST(DateTest, getDaysOfMonthTest) {
     date.setDay(30);
     ASSERT_EQ(date.getDay(), 30);
     EXPECT_THROW(date.setMonth(2), std::out_of_range);
+}
+
+TEST(activityTest, getParsedDateTest){
+    Date date(16, 8, 2024);
+    ASSERT_EQ(date.getParsedDate(), "2024-8-16");
 }
 
 TEST(DateTest, equalityOperatorTest) {

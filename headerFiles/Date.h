@@ -4,13 +4,13 @@
 
 #ifndef ACTIVITIES_REGISTER_DATE_H
 #define ACTIVITIES_REGISTER_DATE_H
-
+#include <string>
 
 class Date {
 public:
     Date(int day, int month, int year);
 
-    Date() : day(1), month(1), year(1970) {}
+    Date() : Date(1, 1, 1970) {}
 
     int getDay() const;
 
@@ -26,16 +26,14 @@ public:
 
     bool operator==(const Date &date) const;
 
+    std::string getParsedDate() const;
+
 private:
     int getDaysOfMonth(int month, int year) const;
 
     bool isLeap(int year) const;
 
     bool validDate(int day, int month, int year);
-
-    bool validDay(int day, int month, int year) const;
-
-    bool validMonth(int month);
 
     int day;
     int month;

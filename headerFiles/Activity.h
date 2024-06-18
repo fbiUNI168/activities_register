@@ -29,8 +29,6 @@ public:
 
     void setDescription(const std::string &description);
 
-    std::string getParsedDate() const;
-
     bool isOverlapping(const Activity &comparisonActivity);
 
 private:

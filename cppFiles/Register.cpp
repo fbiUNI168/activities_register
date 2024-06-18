@@ -16,7 +16,7 @@ std::vector<Activity> Register::getActivitiesForDate(const std::string& date) co
 }
 
 void Register::addActivity(const Activity &activity) {
-    std::string date = activity.getParsedDate();
+    std::string date = activity.getDate().getParsedDate();
     bool overlap = false;
     auto activitiesElement = list[date].begin();
     while(activitiesElement != list[date].end() && overlap == false){

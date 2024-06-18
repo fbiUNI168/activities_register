@@ -23,33 +23,21 @@ int Time::getMinute() const {
 }
 
 void Time::setHour(int hour) {
-    if(validHour(hour))
+    if(validTime(hour, minute))
         Time::hour = hour;
     else
         throw std::out_of_range("Not a valid hour!");
 }
 
 void Time::setMinute(int minute) {
-    if(validMinute(minute))
+    if(validTime(hour, minute))
         Time::minute = minute;
     else
         throw std::out_of_range("Not a valid minute!");
 }
 
-bool Time::validHour(int hour) const {
-    if(hour >= 0 && hour <= 23)
-        return true;
-    return false;
-}
-
-bool Time::validMinute(int minute) const {
-    if(minute >= 0 && minute <= 59)
-        return true;
-    return false;
-}
-
 bool Time::validTime(int hour, int minute) const {
-    if(validHour(hour) && validMinute(minute))
+    if(hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59)
         return true;
     return false;
 }

@@ -9,7 +9,11 @@ Activity::Activity(const std::string& description, Date date, Time startTime, Ti
     if(!isValidDatesRange(startTime, endTime))
         throw std::out_of_range("Not a valid date range for an activity!");
 
-    this->description = description;
+    if(description.empty()) {
+        this->description = "Activity";
+    }else{
+        this->description = description;
+    }
     this->date = date;
     this->startTime = startTime;
     this->endTime = endTime;
@@ -20,11 +24,17 @@ void Activity::setDate(const Date &date) {
 }
 
 void Activity::setStartTime(const Time &startTime) {
-    Activity::startTime = startTime;
+    if(isValidDatesRange(startTime, this->endTime))
+        Activity::startTime = startTime;
+    else
+        throw std::invalid_argument("Invalid start time");
 }
 
 void Activity::setEndTime(const Time &endTime) {
-    Activity::endTime = endTime;
+    if(isValidDatesRange(this->startTime, endTime))
+        Activity::endTime = endTime;
+    else
+        throw std::invalid_argument("End time");
 }
 
 const Date &Activity::getDate() const {
@@ -32,7 +42,8 @@ const Date &Activity::getDate() const {
 }
 
 void Activity::setDescription(const std::string &description) {
-    this->description = description;
+    if(!description.empty())
+        this->description = description;
 }
 
 const std::string &Activity::getDescription() const {
@@ -68,10 +79,4 @@ bool Activity::isOverlapping(const Activity &comparisonActivity) {
             return true;
         else
             return false;
-
-}
-
-std::string Activity::getParsedDate() const{
-    std::string parsedDate = std::to_string(date.getYear()) + "-" + std::to_string(date.getMonth()) + "-" + std::to_string(date.getDay());
-    return parsedDate;
 }

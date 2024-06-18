@@ -22,8 +22,6 @@ public:
     bool operator==(const Time &time) const;
 
 private:
-    bool validHour(int hour) const;
-    bool validMinute(int minute) const;
     bool validTime(int hour, int minute) const;
 
     int hour;
