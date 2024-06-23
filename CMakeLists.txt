@@ -16,6 +16,4 @@ set(SOURCE_FILES
         headerFiles/Register.h
         cppFiles/Time.cpp
         headerFiles/Time.h)
-add_executable(${CMAKE_PROJECT_NAME} main.cpp)
 add_library(${CMAKE_PROJECT_NAME}_lib ${SOURCE_FILES})
-target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_NAME}_lib)

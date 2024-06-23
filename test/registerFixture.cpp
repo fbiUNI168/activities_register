@@ -36,4 +36,15 @@ TEST_F(RegisterFixture, deleteActivityTest){
     ASSERT_EQ(activity[0].getDescription(), "Finish the register test");
     reg.deleteActivity("2024-8-16", -1);
     ASSERT_EQ(activity[0].getDescription(), "Finish the register test");
+
+    reg.deleteActivity("2024-8-15", 0);
+    ASSERT_EQ(activity[0].getDescription(), "Finish the register test");
+
+
+}
+
+TEST_F(RegisterFixture, deleteActivitiesTest){
+    reg.deleteActivities("2024-8-16");
+    auto activity = reg.getActivitiesForDate("2024-8-16");
+    ASSERT_EQ(activity.size(), 0);
 }

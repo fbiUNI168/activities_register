@@ -17,6 +17,7 @@ std::vector<Activity> Register::getActivitiesForDate(const std::string& date) co
 
 void Register::addActivity(const Activity &activity) {
     std::string date = activity.getDate().getParsedDate();
+
     bool overlap = false;
     auto activitiesElement = list[date].begin();
     while(activitiesElement != list[date].end() && overlap == false){
@@ -46,11 +47,16 @@ void Register::addActivity(const Activity &activity) {
 }
 
 void Register::deleteActivity(const std::string &date, int pos) {
-    if(pos >= 0 && pos <= list[date].size()){
-        list[date].erase(list[date].begin() + pos);
+    auto activitiesElement = list.find(date);
+    if(activitiesElement != list.end()){
+        if(pos >= 0 && pos <= list[date].size()){
+            list[date].erase(list[date].begin() + pos);
+        }
     }
 }
 
 void Register::deleteActivities(const std::string &date) {
-    list[date].clear();
+    auto activitiesElement = list.find(date);
+    if(activitiesElement != list.end())
+        list[date].clear();
 }
