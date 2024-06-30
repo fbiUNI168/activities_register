@@ -49,9 +49,8 @@ void Register::addActivity(const Activity &activity) {
 void Register::deleteActivity(const std::string &date, int pos) {
     auto activitiesElement = list.find(date);
     if(activitiesElement != list.end()){
-        if(pos >= 0 && pos <= list[date].size()){
+        if(pos >= 0 && pos < list[date].size())
             list[date].erase(list[date].begin() + pos);
-        }
     }
 }
 
