@@ -20,6 +20,8 @@ private:
     void bindHandler();
     void setSizers();
 
+    void onSearchButtonClick(const wxCommandEvent& evt);
+    void onCancDown(const wxKeyEvent &evt);
     void onAddButtonClick(const wxCommandEvent& evt);
     void onRemoveAllButtonClick(const wxCommandEvent &evt);
 

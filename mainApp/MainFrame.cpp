@@ -11,6 +11,7 @@ MainFrame::MainFrame(const wxString &name): wxFrame(nullptr, wxID_ANY, name) {
 }
 
 void MainFrame::setWidgets() {
+    //TODO try to add different font to the code
     wxFont headlineFont(wxFontInfo(wxSize(0, 36)).Bold());
     wxFont mainFont(wxFontInfo(wxSize(0, 24)));
 
@@ -71,8 +72,35 @@ void MainFrame::setSizers() {
 }
 
 void MainFrame::bindHandler() {
+    searchButton->Bind(wxEVT_BUTTON, &MainFrame::onSearchButtonClick, this);
+    activitiesTable->Bind(wxEVT_KEY_DOWN, &MainFrame::onCancDown, this);
     addButton->Bind(wxEVT_BUTTON, &MainFrame::onAddButtonClick, this);
     removeAllButton->Bind(wxEVT_BUTTON, &MainFrame::onRemoveAllButtonClick, this);
+}
+
+//TODO optimize this function in order to avoid clear the table in case that no new date has been selected
+void MainFrame::onSearchButtonClick(const wxCommandEvent &evt) {
+    Date selectedDate = wxDateTimetoDate();
+    std::vector<Activity> activityVector = activities.getActivitiesForDate(selectedDate.getParsedDate());
+
+    model->DeleteAllItems();
+    for(auto& activity: activityVector){
+        wxVector<wxVariant> tableItem;
+        tableItem.push_back(wxVariant(activity.getStartTime().toString()));
+        tableItem.push_back(wxVariant(activity.getEndTime().toString()));
+        tableItem.push_back(wxVariant(activity.getDescription()));
+
+        model->AppendItem(tableItem);
+    }
+}
+
+void MainFrame::onCancDown(const wxKeyEvent &evt) {
+    if(evt.GetKeyCode() == WXK_DELETE){
+        int index = model->GetRow(activitiesTable->GetSelection());
+        Date selectedDate = wxDateTimetoDate();
+        activities.deleteActivity(selectedDate.getParsedDate() ,index);
+        model->DeleteItem(index);
+    }
 }
 
 void MainFrame::onAddButtonClick(const wxCommandEvent &evt) {
@@ -85,9 +113,16 @@ void MainFrame::onAddButtonClick(const wxCommandEvent &evt) {
 }
 
 void MainFrame::onRemoveAllButtonClick(const wxCommandEvent &evt) {
-    wxMessageDialog *warningMessage = new wxMessageDialog(panel,
-                            "Are you sure to delete all the activities?","DELETE ALL THE ACTIVITIES",
-                            wxYES_NO | wxCENTER);
+    wxMessageDialog *warningMessage;
+    if(model->GetItemCount() == 0) {
+        warningMessage = new wxMessageDialog(panel, "So far you haven't added activities",
+                                             "NO ACTIVITIES TO DELETE");
+    }else{
+        warningMessage = new wxMessageDialog(panel,
+                                             "Are you sure to delete all the activities?",
+                                             "DELETE ALL THE ACTIVITIES",
+                                             wxYES_NO | wxCENTER);
+    }
     int result = warningMessage->ShowModal();
     if(result == wxID_YES){
         Date selectedDate = wxDateTimetoDate();
