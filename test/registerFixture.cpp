@@ -23,7 +23,7 @@ TEST_F(RegisterFixture, addActivityTest){
     ASSERT_EQ(activity[0].getDescription(), "Go to the cinema");
     ASSERT_EQ(activity[1].getDescription(), "Do the dish washing");
     ASSERT_EQ(activity[2].getDescription(), "Finish the register test");
-    EXPECT_THROW(reg.addActivity(Activity ("Finish the unit testing of the activities register", Date(16, 8, 2024),
+    EXPECT_THROW(reg.addActivity(Activity ("Finish the unit testing of the activitiesTable register", Date(16, 8, 2024),
                               Time(19, 10), Time(19, 20))), std::invalid_argument);
 
 }

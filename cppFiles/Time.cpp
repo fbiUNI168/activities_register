@@ -47,3 +47,9 @@ bool Time::operator==(const Time &time) const{
         return true;
     return false;
 }
+
+std::string Time::toString() const {
+    std::ostringstream oss;
+    oss << std::setw(2) << std::setfill('0') << hour << ":" << std::setw(2) << std::setfill('0') << minute;
+    return oss.str();
+}

@@ -20,7 +20,6 @@ TEST(activityTest, invalidActivitytest){
                           Time(19, 00), Time(18, 00)), std::out_of_range);
     EXPECT_THROW( Activity activity("Do the project for the programming course", Date(16, 8, 2024),
                           Time(18, 00), Time(18, 00)), std::out_of_range);
-
 }
 
 TEST(activityTest, settersTest){

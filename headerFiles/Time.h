@@ -4,7 +4,8 @@
 
 #ifndef ACTIVITIES_REGISTER_TIME_H
 #define ACTIVITIES_REGISTER_TIME_H
-
+#include <iomanip>
+#include <sstream>
 
 class Time {
 public:
@@ -20,6 +21,8 @@ public:
     void setMinute(int minutes);
 
     bool operator==(const Time &time) const;
+
+    std::string toString() const;
 
 private:
     bool validTime(int hour, int minute) const;
