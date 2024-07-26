@@ -11,13 +11,14 @@ MainFrame::MainFrame(const wxString &name): wxFrame(nullptr, wxID_ANY, name) {
 }
 
 void MainFrame::setWidgets() {
-    //TODO try to add different font to the code
+    wxFont mainFont(wxFontInfo(wxSize(0, 15)));
     wxFont headlineFont(wxFontInfo(wxSize(0, 36)).Bold());
-    wxFont mainFont(wxFontInfo(wxSize(0, 24)));
 
     panel = new wxPanel(this);
+    panel->SetFont(mainFont);
 
-    appTitle = new wxStaticText(panel, wxID_ANY, "My activitiesTable register");
+    appTitle = new wxStaticText(panel, wxID_ANY, "My activities register");
+    appTitle->SetFont(headlineFont);
 
     searchButton = new wxButton(panel, wxID_ANY, "Search");
 
@@ -41,6 +42,8 @@ void MainFrame::setWidgets() {
     removeAllButton = new wxButton(panel, wxID_ANY, "Remove All");
 
     addActivitiesModal = new ActivityInput(panel, wxID_ANY, "Add an activity", wxDefaultPosition, wxSize(500, 500));
+
+    activities.updateRegisterFormFile();
 }
 
 void MainFrame::setSizers() {
@@ -76,22 +79,12 @@ void MainFrame::bindHandler() {
     activitiesTable->Bind(wxEVT_KEY_DOWN, &MainFrame::onCancDown, this);
     addButton->Bind(wxEVT_BUTTON, &MainFrame::onAddButtonClick, this);
     removeAllButton->Bind(wxEVT_BUTTON, &MainFrame::onRemoveAllButtonClick, this);
+    this->Bind(wxEVT_CLOSE_WINDOW, &MainFrame::onWindowClosed, this);
+    this->Bind(wxEVT_SHOW, &MainFrame::onWindowOpen, this);
 }
 
-//TODO optimize this function in order to avoid clear the table in case that no new date has been selected
 void MainFrame::onSearchButtonClick(const wxCommandEvent &evt) {
-    Date selectedDate = wxDateTimetoDate();
-    std::vector<Activity> activityVector = activities.getActivitiesForDate(selectedDate.getParsedDate());
-
-    model->DeleteAllItems();
-    for(auto& activity: activityVector){
-        wxVector<wxVariant> tableItem;
-        tableItem.push_back(wxVariant(activity.getStartTime().toString()));
-        tableItem.push_back(wxVariant(activity.getEndTime().toString()));
-        tableItem.push_back(wxVariant(activity.getDescription()));
-
-        model->AppendItem(tableItem);
-    }
+    displayElements();
 }
 
 void MainFrame::onCancDown(const wxKeyEvent &evt) {
@@ -103,6 +96,7 @@ void MainFrame::onCancDown(const wxKeyEvent &evt) {
     }
 }
 
+//TODO verify if the date selected is the displayed one
 void MainFrame::onAddButtonClick(const wxCommandEvent &evt) {
     Date selectedDate = wxDateTimetoDate();
     int modalStatus = addActivitiesModal->ShowModal();
@@ -128,6 +122,30 @@ void MainFrame::onRemoveAllButtonClick(const wxCommandEvent &evt) {
         Date selectedDate = wxDateTimetoDate();
         activities.deleteActivities(selectedDate.getParsedDate());
         model->DeleteAllItems();
+    }
+}
+
+void MainFrame::onWindowClosed(wxCloseEvent &evt) {
+    activities.saveToFile();
+    evt.Skip();
+}
+
+void MainFrame::onWindowOpen(const wxShowEvent &evt) {
+    displayElements();
+}
+
+void MainFrame::displayElements() {
+    Date selectedDate = wxDateTimetoDate();
+    std::vector<Activity> activityVector = activities.getActivitiesForDate(selectedDate.getParsedDate());
+
+    model->DeleteAllItems();
+    for(auto& activity: activityVector){
+        wxVector<wxVariant> tableItem;
+        tableItem.push_back(wxVariant(activity.getStartTime().toString()));
+        tableItem.push_back(wxVariant(activity.getEndTime().toString()));
+        tableItem.push_back(wxVariant(activity.getDescription()));
+
+        model->AppendItem(tableItem);
     }
 }
 

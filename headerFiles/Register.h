@@ -6,8 +6,15 @@
 #define ACTIVITIES_REGISTER_REGISTER_H
 #include "Activity.h"
 #include "Date.h"
+#include <string>
+#include <sstream>
 #include <map>
 #include <vector>
+#include <algorithm>
+#include <stdexcept>
+#include <fstream>
+#include <iostream>
+#include <filesystem>
 
 class Register {
 public:
@@ -21,9 +28,14 @@ public:
 
     void deleteActivities(const std::string& date);
 
+    void saveToFile();
+
+    void updateRegisterFormFile();
 
 private:
     std::map<std::string ,std::vector<Activity>> list;
+
+    std::vector<std::string> split(const std::string& line, char delimiter);
 };
 
 

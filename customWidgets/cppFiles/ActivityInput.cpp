@@ -23,12 +23,19 @@ ActivityInput::ActivityInput(wxWindow *parent, wxWindowID id, const std::string 
 void ActivityInput::setUpSizers() {
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
-    sizer->Add(new wxStaticText(this, wxID_ANY, "Start time"),
+
+    wxFont headerFont(wxFontInfo(wxSize(0, 17)).Bold());
+    wxStaticText *startInputHeader = new wxStaticText(this, wxID_ANY, "Start time");
+    wxStaticText *endInputHeader = new wxStaticText(this, wxID_ANY, "End time");
+    startInputHeader->SetFont(headerFont);
+    endInputHeader->SetFont(headerFont);
+
+    sizer->Add( startInputHeader,
                wxSizerFlags().Border(wxLEFT | wxTOP, 10));
     sizer->AddSpacer(10);
     sizer->Add(startTimePicker, wxSizerFlags().Border(wxLEFT, 10));
     sizer->AddSpacer(20);
-    sizer->Add(new wxStaticText(this, wxID_ANY, "End time"),
+    sizer->Add(endInputHeader,
                wxSizerFlags().Border(wxLEFT, 10));
     sizer->AddSpacer(10);
     sizer->Add(endTimePicker, wxSizerFlags().Border(wxLEFT, 10));

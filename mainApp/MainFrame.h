@@ -9,6 +9,7 @@
 #include <wx/wx.h>
 #include <wx/datectrl.h>
 #include <wx/dataview.h>
+#include <wx/font.h>
 #include <exception>
 
 
@@ -24,8 +25,11 @@ private:
     void onCancDown(const wxKeyEvent &evt);
     void onAddButtonClick(const wxCommandEvent& evt);
     void onRemoveAllButtonClick(const wxCommandEvent &evt);
+    void onWindowClosed(wxCloseEvent &evt);
+    void onWindowOpen(const wxShowEvent &evt);
 
     void addActivity();
+    void displayElements();
 
     Date wxDateTimetoDate();
 

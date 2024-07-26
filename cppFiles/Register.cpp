@@ -3,8 +3,6 @@
 //
 
 #include "../headerFiles/Register.h"
-#include <algorithm>
-#include <stdexcept>
 
 std::vector<Activity> Register::getActivitiesForDate(const std::string& date) const {
     auto activitiesElement = list.find(date);
@@ -58,4 +56,55 @@ void Register::deleteActivities(const std::string &date) {
     auto activitiesElement = list.find(date);
     if(activitiesElement != list.end())
         list[date].clear();
+}
+
+void Register::saveToFile() {
+    std::ofstream fout;
+    fout.open("../activitiesData/data.txt");
+
+    if(fout){
+        std::string line;
+        for(auto& activities: list){
+            for(auto& activity: activities.second){
+                line = activities.first + ";" +
+                       activity.getStartTime().toString() + ";" + activity.getEndTime().toString()
+                       + ";" + activity.getDescription() + "\n";
+                fout << line;
+            }
+        }
+        fout.close();
+    }
+
+}
+
+void Register::updateRegisterFormFile() {
+    std::ifstream fin;
+    fin.open("../activitiesData/data.txt");
+
+    if(fin) {
+        std::string line;
+        while (getline(fin, line)) {
+            std::vector<std::string> activitiesElement = split(line, ';');
+
+            std::vector<std::string> buffer = split(activitiesElement[0], '-');
+            Date date(std::stoi(buffer[2]), std::stoi(buffer[1]), std::stoi(buffer[0]));
+            buffer = split(activitiesElement[1], ':');
+            Time startTime(std::stoi(buffer[0]), std::stoi(buffer[1]));
+            buffer = split(activitiesElement[2], ':');
+            Time endTime(std::stoi(buffer[0]), std::stoi(buffer[1]));
+            std::string description = activitiesElement[3];
+
+            list[date.getParsedDate()].push_back(Activity(description, date, startTime, endTime));
+        }
+        fin.close();
+    }
+}
+
+std::vector<std::string> Register::split(const std::string& line, char delimiter) {
+    std::stringstream outLine(line);
+    std::string segment;
+    std::vector<std::string> array;
+    while(std::getline(outLine, segment, delimiter))
+        array.push_back(segment);
+    return array;
 }
