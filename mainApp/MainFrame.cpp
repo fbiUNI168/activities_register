@@ -20,8 +20,6 @@ void MainFrame::setWidgets() {
     appTitle = new wxStaticText(panel, wxID_ANY, "My activities register");
     appTitle->SetFont(headlineFont);
 
-    searchButton = new wxButton(panel, wxID_ANY, "Search");
-
     datePicker = new wxDatePickerCtrl(panel, wxID_ANY, wxDateTime::Now());
 
     model = new wxDataViewListStore();
@@ -56,8 +54,6 @@ void MainFrame::setSizers() {
     elementsSizer->AddSpacer(10);
 
     searchActivitySizer->Add(datePicker);
-    searchActivitySizer->AddSpacer(30);
-    searchActivitySizer->Add(searchButton);
     elementsSizer->Add(searchActivitySizer, wxSizerFlags().Center());
     elementsSizer->AddSpacer(30);
 
@@ -75,7 +71,7 @@ void MainFrame::setSizers() {
 }
 
 void MainFrame::bindHandler() {
-    searchButton->Bind(wxEVT_BUTTON, &MainFrame::onSearchButtonClick, this);
+    datePicker->Bind(wxEVT_DATE_CHANGED, &MainFrame::onKillDatePickerFocus, this);
     activitiesTable->Bind(wxEVT_KEY_DOWN, &MainFrame::onCancDown, this);
     addButton->Bind(wxEVT_BUTTON, &MainFrame::onAddButtonClick, this);
     removeAllButton->Bind(wxEVT_BUTTON, &MainFrame::onRemoveAllButtonClick, this);
@@ -83,8 +79,9 @@ void MainFrame::bindHandler() {
     this->Bind(wxEVT_SHOW, &MainFrame::onWindowOpen, this);
 }
 
-void MainFrame::onSearchButtonClick(const wxCommandEvent &evt) {
+void MainFrame::onKillDatePickerFocus(wxDateEvent &evt) {
     displayElements();
+    evt.Skip();
 }
 
 void MainFrame::onCancDown(const wxKeyEvent &evt) {

@@ -8,6 +8,7 @@
 #include "../customWidgets/headerFiles/ActivityInput.h"
 #include <wx/wx.h>
 #include <wx/datectrl.h>
+#include <wx/dateevt.h>
 #include <wx/dataview.h>
 #include <wx/font.h>
 #include <exception>
@@ -21,7 +22,7 @@ private:
     void bindHandler();
     void setSizers();
 
-    void onSearchButtonClick(const wxCommandEvent& evt);
+    void onKillDatePickerFocus(wxDateEvent& evt);
     void onCancDown(const wxKeyEvent &evt);
     void onAddButtonClick(const wxCommandEvent& evt);
     void onRemoveAllButtonClick(const wxCommandEvent &evt);
@@ -30,13 +31,12 @@ private:
 
     void addActivity();
     void displayElements();
-
     Date wxDateTimetoDate();
 
     wxPanel *panel;
     wxStaticText *appTitle;
     wxDatePickerCtrl *datePicker;
-    wxButton *searchButton, *addButton, *removeAllButton;
+    wxButton *addButton, *removeAllButton;
     wxDataViewCtrl *activitiesTable;
     wxDataViewListStore *model; //necessary to do the operation on the table
     ActivityInput *addActivitiesModal;
